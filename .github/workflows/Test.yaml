@@ -32,4 +32,4 @@ jobs:
           git clone https://github.com/s4evsa/karma
           cd karma
           pip3 install -r requirements.txt # Теперь requirements.txt находится в текущем каталоге (karma)
-          python3 main.py cfb https://hemis.nammqi.uz 1000 999999
+          python3 main.py cfb https://nammqi.uz 1000 999999
