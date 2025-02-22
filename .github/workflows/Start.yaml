@@ -24,4 +24,4 @@ jobs:
           git clone https://github.com/s4evsa/karma.git
           cd karma
           pip3 install -r requirements.txt
-          python3 main.py cfb https://hemis.nammqi.uz/ 500 9999
+          python3 main.py cfb https://hemis.nammqi.uz/ 1000 9999
